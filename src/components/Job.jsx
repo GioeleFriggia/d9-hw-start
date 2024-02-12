@@ -1,15 +1,13 @@
-import React from "react";
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { Star, StarFill } from "react-bootstrap-icons";
+import { useSelector, useDispatch } from "react-redux";
 
-const Job = ({ data, isFavorite, onAddToFavorites, onRemoveFromFavorites }) => {
-  const handleClick = () => {
-    if (isFavorite) {
-      onRemoveFromFavorites(data.company_name);
-    } else {
-      onAddToFavorites(data.company_name);
-    }
-  };
+const Job = ({ data }) => {
+  const favourites = useSelector((state) => state.favourite.list);
+  const dispatch = useDispatch();
+
+  const isFav = favourites.includes(data.company_name);
 
   return (
     <Row
@@ -17,20 +15,37 @@ const Job = ({ data, isFavorite, onAddToFavorites, onRemoveFromFavorites }) => {
       style={{ border: "1px solid #00000033", borderRadius: 4 }}
     >
       <Col xs={3}>
+        {isFav ? (
+          <StarFill
+            color="gold"
+            size={16}
+            className="mr-2 my-auto"
+            onClick={() =>
+              dispatch({
+                type: "REMOVE_FROM_FAVOURITE",
+                payload: data.company_name,
+              })
+            }
+          />
+        ) : (
+          <Star
+            color="gold"
+            size={16}
+            className="mr-2 my-auto"
+            onClick={() =>
+              dispatch({
+                type: "ADD_TO_FAVOURITE",
+                payload: data.company_name,
+              })
+            }
+          />
+        )}
         <Link to={`/${data.company_name}`}>{data.company_name}</Link>
       </Col>
-      <Col xs={7}>
+      <Col xs={9}>
         <a href={data.url} target="_blank" rel="noreferrer">
           {data.title}
         </a>
-      </Col>
-      <Col xs={2}>
-        <Button
-          variant={isFavorite ? "danger" : "primary"}
-          onClick={handleClick}
-        >
-          {isFavorite ? "Remove" : "Add"}
-        </Button>
       </Col>
     </Row>
   );

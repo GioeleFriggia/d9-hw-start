@@ -1,25 +1,30 @@
-// reducers > actions.js
+const initialState = {
+  favourite: {
+    list: [],
+  },
+};
 
-export const ADD_TO_FAVORITES = "ADD_TO_FAVORITES";
-export const REMOVE_FROM_FAVORITES = "REMOVE_FROM_FAVORITES";
+const mainReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case "ADD_TO_FAVOURITE":
+      return {
+        ...state,
+        favourite: {
+          ...state.favourite,
+          list: [...state.favourite.list, action.payload],
+        },
+      };
+    case "REMOVE_FROM_FAVOURITE":
+      return {
+        ...state,
+        favourite: {
+          ...state.favourite,
+          list: state.favourite.list.filter((fav) => fav !== action.payload),
+        },
+      };
+    default:
+      return state;
+  }
+};
 
-export const addToFavorites = (company) => ({
-  type: ADD_TO_FAVORITES,
-  payload: company,
-});
-
-export const removeFromFavorites = (company) => ({
-  type: REMOVE_FROM_FAVORITES,
-  payload: company,
-});
-
-// reducers > index.js
-
-import { combineReducers } from "redux";
-import favoritesReducer from "./favoriteSlice";
-
-const rootReducer = combineReducers({
-  favorites: favoritesReducer,
-});
-
-export default rootReducer;
+export default mainReducer;
