@@ -1,13 +1,14 @@
-// CompanySearchResults.jsx
-
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import Job from "./Job";
-import MyNavbar from "../components/NavBar"; // Importa il componente Navbar
+import MyNavbar from "../components/NavBar";
 
 const CompanySearchResults = () => {
   const [jobs, setJobs] = useState([]);
+  const [companyName, setCompanyName] = useState("");
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
   const params = useParams();
 
   const baseEndpoint =
@@ -32,12 +33,56 @@ const CompanySearchResults = () => {
     }
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await fetch(
+      `https://strive-benchmark.herokuapp.com/api/jobs?company=${companyName}&user=${userName}&email=${email}`
+    );
+    if (response.ok) {
+      const { data } = await response.json();
+      setJobs(data);
+    } else {
+      alert("Error fetching results");
+    }
+  };
+
   // Calcola l'indice per dividere le cards tra sinistra e destra
   const splitIndex = Math.ceil(jobs.length / 2);
 
   return (
     <Container>
       <MyNavbar /> {/* Usa il componente Navbar qui */}
+      <Form onSubmit={handleSubmit}>
+        <Row>
+          <Col>
+            <Form.Control
+              type="text"
+              placeholder="Enter company name"
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+            />
+          </Col>
+          <Col>
+            <Form.Control
+              type="text"
+              placeholder="Enter user name"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+            />
+          </Col>
+          <Col>
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </Col>
+          <Col>
+            <Button type="submit">Search</Button>
+          </Col>
+        </Row>
+      </Form>
       <Row>
         <Col>
           <Row>

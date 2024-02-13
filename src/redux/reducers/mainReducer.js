@@ -1,36 +1,36 @@
 // reducers/mainReducer.js
 
-import {
-  FETCH_SEARCH_RESULTS_REQUEST,
-  FETCH_SEARCH_RESULTS_SUCCESS,
-  FETCH_SEARCH_RESULTS_FAILURE,
-} from "../actions";
-
 const initialState = {
-  jobs: [],
+  favourite: {
+    list: [],
+  },
   loading: false,
   error: null,
 };
 
 const mainReducer = (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_SEARCH_RESULTS_REQUEST:
+    case "ADD_TO_FAVOURITE":
       return {
         ...state,
         loading: true,
       };
-    case FETCH_SEARCH_RESULTS_SUCCESS:
+    case "ADD_TO_FAVOURITE_SUCCESS":
       return {
         ...state,
-        jobs: action.payload,
+        favourite: {
+          ...state.favourite,
+          list: [...state.favourite.list, action.payload],
+        },
         loading: false,
       };
-    case FETCH_SEARCH_RESULTS_FAILURE:
+    case "ADD_TO_FAVOURITE_FAILURE":
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
+    // Altri casi per gestire le azioni aggiuntive
     default:
       return state;
   }

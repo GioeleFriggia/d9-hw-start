@@ -26,7 +26,6 @@ const Favourites = () => {
       <Row>
         <Col xs={10} className="mx-auto my-3">
           <h1>Favourites</h1>
-          <Button onClick={() => navigate("/")}>Home</Button>
         </Col>
         <Col xs={10} className="mx-auto my-3">
           <ListGroup>

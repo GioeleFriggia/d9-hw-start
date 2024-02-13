@@ -53,3 +53,7 @@
   padding: 20px 0; /* Spaziatura interna del footer */
   text-align: center;
 }
+.custom-card {
+  width: 500px; /* Larghezza desiderata */
+  height: 800px; /* Altezza desiderata */
+}

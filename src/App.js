@@ -17,7 +17,7 @@ function App() {
         <Route path="/:companyName" element={<CompanySearchResults />} />
         <Route path="/favourites" element={<Favourites />} />
       </Routes>
-      <MyFooter /> {/* Includi il componente Footer qui */}
+      <MyFooter />
     </BrowserRouter>
   );
 }
