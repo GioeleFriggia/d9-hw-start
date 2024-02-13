@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Container,
   Row,
@@ -6,15 +7,19 @@ import {
   ListGroupItem,
   Button,
 } from "react-bootstrap";
-import { StarFill } from "react-bootstrap-icons";
-import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import Job from "./Job";
+import { useDispatch, useSelector } from "react-redux";
+import { removeFromFavourite } from "../redux/reducers/favouriteReducer";
+import { useNavigate } from "react-router-dom"; // Importa useNavigate da react-router-dom
 
 const Favourites = () => {
   const favourites = useSelector((state) => state.favourite.list);
   const dispatch = useDispatch();
+  const navigate = useNavigate(); // Ottieni la funzione navigate
 
-  const navigate = useNavigate();
+  const handleRemoveFromFavourites = (companyName) => {
+    dispatch(removeFromFavourite(companyName));
+  };
 
   return (
     <Container>
@@ -27,16 +32,13 @@ const Favourites = () => {
           <ListGroup>
             {favourites.map((fav, i) => (
               <ListGroupItem key={i}>
-                <StarFill
-                  className="mr-2"
-                  onClick={() =>
-                    dispatch({
-                      type: "REMOVE_FROM_FAVOURITE",
-                      payload: fav,
-                    })
-                  }
-                />
-                <Link to={"/" + fav}>{fav}</Link>
+                <Job data={{ company_name: fav }} />
+                <Button
+                  variant="danger"
+                  onClick={() => handleRemoveFromFavourites(fav)}
+                >
+                  Delete
+                </Button>
               </ListGroupItem>
             ))}
           </ListGroup>

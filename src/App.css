@@ -36,3 +36,20 @@
     transform: rotate(360deg);
   }
 }
+.card {
+  width: 50%;
+  height: 10%; /* Imposta un'altezza fissa */
+}
+
+.card-body {
+  height: 100%; /* Assicura che il contenuto riempia completamente l'altezza della card */
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: rgb(13, 110, 253); /* Colore di sfondo del footer */
+  padding: 20px 0; /* Spaziatura interna del footer */
+  text-align: center;
+}

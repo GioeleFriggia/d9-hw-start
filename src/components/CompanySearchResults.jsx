@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react";
+// CompanySearchResults.jsx
+
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import Job from "./Job";
 import { useParams } from "react-router-dom";
+import Job from "./Job";
+import MyNavbar from "../components/NavBar"; // Importa il componente Navbar
 
 const CompanySearchResults = () => {
   const [jobs, setJobs] = useState([]);
@@ -29,13 +32,30 @@ const CompanySearchResults = () => {
     }
   };
 
+  // Calcola l'indice per dividere le cards tra sinistra e destra
+  const splitIndex = Math.ceil(jobs.length / 2);
+
   return (
     <Container>
+      <MyNavbar /> {/* Usa il componente Navbar qui */}
       <Row>
         <Col>
-          {jobs.map((jobData) => (
-            <Job key={jobData._id} data={jobData} />
-          ))}
+          <Row>
+            {jobs.slice(0, splitIndex).map((jobData) => (
+              <Col md={6} key={jobData._id}>
+                <Job data={jobData} />
+              </Col>
+            ))}
+          </Row>
+        </Col>
+        <Col>
+          <Row>
+            {jobs.slice(splitIndex).map((jobData) => (
+              <Col md={6} key={jobData._id}>
+                <Job data={jobData} />
+              </Col>
+            ))}
+          </Row>
         </Col>
       </Row>
     </Container>
